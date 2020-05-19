@@ -1,12 +1,9 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "io/ioutil"
     "log"
-    "net/http"
-
+	"net/http"
+	"github.com/zanefinner/first-golang-api/articles"
     "github.com/gorilla/mux"
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
@@ -15,12 +12,6 @@ import (
 var db *gorm.DB
 var err error
 var reqBody []byte
-
-type article struct {
-    ID      int    `json:"id"`
-    User    string `json:"user"`
-    Content string `json:"content"`
-}
 
 
 func main() {
@@ -33,15 +24,13 @@ func main() {
     }
 
     log.Println("Connection Established")
-    db.AutoMigrate(&article{})
-
     log.Println("Server Start")
 
     myRouter := mux.NewRouter().StrictSlash(true)
 
-    myRouter.HandleFunc("/", homeHandle).Methods("GET")
-    myRouter.HandleFunc("/articles", indexHandle).Methods("GET")
-    myRouter.HandleFunc("/articles", createHandle).Methods("POST")
+    //myRouter.HandleFunc("/", articles.homeHandle).Methods("GET")
+    myRouter.HandleFunc("/articles", articles.IndexHandle).Methods("GET")
+    myRouter.HandleFunc("/articles", articles.CreateHandle).Methods("POST")
 
     log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
