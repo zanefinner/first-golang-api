@@ -22,37 +22,6 @@ type article struct {
     Content string `json:"content"`
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-    w.Write([]byte("Welcome to HomePage!"))
-    fmt.Println("Endpoint Hit: HomePage")
-}
-func indexHandle(w http.ResponseWriter, r *http.Request) {
-    articles := []article{}
-    db.Find(&articles)
-    fmt.Println("Endpoint Hit: indexHandle")
-    err = json.NewEncoder(w).Encode(articles)
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-
-func createHandle(w http.ResponseWriter, r *http.Request) {
-    reqBody, err = ioutil.ReadAll(r.Body)
-    if err != nil {
-        log.Fatal(err)
-    }
-    var article article
-    err = json.Unmarshal(reqBody, &article)
-    if err != nil {
-        log.Fatal(err)
-    }
-    db.Create(&article)
-    fmt.Println("Endpoint Hit: Creating New Post")
-    err = json.NewEncoder(w).Encode(article)
-    if err != nil {
-        log.Fatal(err)
-    }
-}
 
 func main() {
 
@@ -70,7 +39,7 @@ func main() {
 
     myRouter := mux.NewRouter().StrictSlash(true)
 
-    myRouter.HandleFunc("/", homePage).Methods("GET")
+    myRouter.HandleFunc("/", homeHandle).Methods("GET")
     myRouter.HandleFunc("/articles", indexHandle).Methods("GET")
     myRouter.HandleFunc("/articles", createHandle).Methods("POST")
 
