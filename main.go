@@ -14,6 +14,7 @@ import (
 
 var db *gorm.DB
 var err error
+var reqBody []byte
 
 type article struct {
 	ID      int    `json:"id"`
@@ -29,13 +30,22 @@ func indexHandle(w http.ResponseWriter, r *http.Request) {
 	articles := []article{}
 	db.Find(&articles)
 	fmt.Println("Endpoint Hit: indexHandle")
-	json.NewEncoder(w).Encode(articles)
+	err = json.NewEncoder(w).Encode(articles)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func createHandle(w http.ResponseWriter, r *http.Request) {
-	reqBody, _ := ioutil.ReadAll(r.Body)
+	reqBody, err = ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 	var article article
-	json.Unmarshal(reqBody, &article)
+	err = json.Unmarshal(reqBody, &article)
+	if err != nil {
+		log.Fatal(err)
+	}
 	db.Create(&article)
 	fmt.Println("Endpoint Hit: Creating New Post")
 	json.NewEncoder(w).Encode(article)
@@ -47,10 +57,10 @@ func main() {
 
 	if err != nil {
 		log.Println("Connection Failed to Open")
-	} else {
-		log.Println("Connection Established")
+		return
 	}
 
+	log.Println("Connection Established")
 	db.AutoMigrate(&article{})
 
 	log.Println("Server Start")
