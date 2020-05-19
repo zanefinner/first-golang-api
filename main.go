@@ -48,7 +48,10 @@ func createHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Create(&article)
 	fmt.Println("Endpoint Hit: Creating New Post")
-	json.NewEncoder(w).Encode(article)
+	err = json.NewEncoder(w).Encode(article)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
