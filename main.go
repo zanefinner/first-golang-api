@@ -42,8 +42,8 @@ func main() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	myRouter.HandleFunc("/", homePage).Methods("GET")
-	myRouter.HandleFunc("/articles", IndexHandle).Methods("GET")
-	myRouter.HandleFunc("/articles", CreateHandle).Methods("POST")
+	myRouter.HandleFunc("/articles", article.IndexHandle).Methods("GET")
+	myRouter.HandleFunc("/articles", article.CreateHandle).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
