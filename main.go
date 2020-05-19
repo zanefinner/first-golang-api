@@ -8,17 +8,12 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/zanefinner/first-golang-api/article"
 )
 
 var db *gorm.DB
 var err error
 var reqBody []byte
-
-type article struct {
-	ID      int    `json:"id"`
-	User    string `json:"user"`
-	Content string `json:"content"`
-}
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to HomePage!"))
