@@ -6,7 +6,13 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/jinzhu/gorm"
 )
+
+var db *gorm.DB
+var err error
+var reqBody []byte
 
 func IndexHandle(w http.ResponseWriter, r *http.Request) {
 	articles := []article{}
