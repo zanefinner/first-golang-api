@@ -9,17 +9,15 @@ import (
 //IndexHandle Resolves the site's root
 func IndexHandle(w http.ResponseWriter, r *http.Request) {
 	//w.Write([]byte("Website Root"))
-	t, err := template.New("foo").Parse(`<!doctype HTML>
-	<html>
-		<head>
-			<title>Hello World</title>
-		</head>
-		<body>
-			<p>Hello, {{.}}</p>
-		</body>
-	</html>
-		`)
-	err = t.Execute(w, template.HTML(`<b>Zane</b>`))
+	t, err := template.ParseFiles("templates/landing_page.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	config := map[string]string{
+		"name": "Zane",
+	}
+	err = t.Execute(w, config)
 	if err != nil {
 		fmt.Println(err)
 		return
