@@ -11,7 +11,6 @@ import (
 func Read(w http.ResponseWriter, r *http.Request) {
 	articles := []Article{}
 	db.Find(&articles)
-	fmt.Println("Endpoint Hit: indexHandle")
 	err = json.NewEncoder(w).Encode(articles)
 	if err != nil {
 		fmt.Println(err)
@@ -33,8 +32,6 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db.Create(&article)
-
-	fmt.Println("Endpoint Hit: Creating New Post")
 	err = json.NewEncoder(w).Encode(article)
 	if err != nil {
 		fmt.Println(err)
