@@ -2,12 +2,35 @@ package accounts
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
+)
+
+var (
+	t      *template.Template
+	err    error
+	config map[string]string
 )
 
 //IndexHandle Resolves GET /accounts
 func IndexHandle(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Log in/Sign up form will be here"))
+	t, err = template.ParseFiles("templates/partials/head.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	config = map[string]string{
+		"title": "Welcome",
+	}
+	err = t.Execute(w, config)
+	t, err = template.ParseFiles("templates/forms/signin.html")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	config = map[string]string{}
+	err = t.Execute(w, config)
+
 	fmt.Println("Endpoint Hit: GET: /accounts")
 }
 
@@ -26,4 +49,5 @@ func MatchHandle(w http.ResponseWriter, r *http.Request) {
 	//  If yes, set logged in session
 	// If not, return error and prompt to try again
 	//If not, state that the user doesn't exist
+	fmt.Println("Endpoint Hit: POST: /accounts/login")
 }
