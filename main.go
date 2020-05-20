@@ -1,36 +1,34 @@
 package main
 
 import (
-    "log"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/zanefinner/first-golang-api/articles"
-    "github.com/gorilla/mux"
-    "github.com/jinzhu/gorm"
-    _ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var db *gorm.DB
 var err error
 var reqBody []byte
 
-
 func main() {
+	if err != nil {
+		log.Println("Connection Failed to Open")
+		return
+	}
 
-    db, err = gorm.Open("mysql", "zane:5245@/blog?charset=utf8&parseTime=True&loc=Local")
+	//db.AutoMigrate(&Article{})
 
-    if err != nil {
-        log.Println("Connection Failed to Open")
-        return
-    }
+	log.Println("Connection Established")
+	log.Println("Server Start")
 
-    log.Println("Connection Established")
-    log.Println("Server Start")
+	myRouter := mux.NewRouter().StrictSlash(true)
 
-    myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/articles", articles.IndexHandle).Methods("GET")
+	myRouter.HandleFunc("/articles", articles.CreateHandle).Methods("POST")
 
-    //myRouter.HandleFunc("/", articles.homeHandle).Methods("GET")
-    myRouter.HandleFunc("/articles", articles.IndexHandle).Methods("GET")
-    myRouter.HandleFunc("/articles", articles.CreateHandle).Methods("POST")
-
-    log.Fatal(http.ListenAndServe(":10000", myRouter))
+	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
