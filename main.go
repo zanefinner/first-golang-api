@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/zanefinner/first-golang-api/router"
+	"github.com/zanefinner/golang-blog/router"
 )
 
 var db *gorm.DB

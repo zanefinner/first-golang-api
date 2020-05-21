@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/zanefinner/first-golang-api/accounts"
-	"github.com/zanefinner/first-golang-api/articles"
-	"github.com/zanefinner/first-golang-api/base"
+	"github.com/zanefinner/golang-blog/accounts"
+	"github.com/zanefinner/golang-blog/articles"
+	"github.com/zanefinner/golang-blog/base"
 )
 
 //Start makes all the routes
