@@ -21,5 +21,5 @@ func main() {
 	log.Println("Connection Established")
 	log.Println("Server Start")
 
-	router.Start()
+	router.Start() //there are preset routes here
 }
