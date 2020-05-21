@@ -3,13 +3,21 @@ package accounts
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
+	"os"
+
+	"github.com/gorilla/sessions"
 )
 
 var (
-	t      *template.Template
-	err    error
-	config map[string]string
+	t         *template.Template
+	err       error
+	config    map[string]string
+	store     = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+	session   *sessions.Session
+	client    *http.Client
+	remoteURL string
 )
 
 //IndexHandle Resolves GET /accounts
@@ -44,10 +52,8 @@ func CreateHandle(w http.ResponseWriter, r *http.Request) {
 
 //MatchHandle resolves POST /accounts/login
 func MatchHandle(w http.ResponseWriter, r *http.Request) {
-	// Does the username or pass match a record?
-	// If yes, get password from the record. Does that match?
-	//  If yes, set logged in session
-	// If not, return error and prompt to try again
-	//If not, state that the user doesn't exist
+
+	r.ParseForm()
+	log.Println(r.Form)
 	fmt.Println("Endpoint Hit: POST: /accounts/login")
 }

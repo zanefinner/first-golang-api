@@ -40,5 +40,6 @@ func main() {
 	myRouter.HandleFunc("/accounts", accounts.IndexHandle).Methods("GET")
 	myRouter.HandleFunc("/accounts/new", accounts.CreateHandle).Methods("POST")
 	myRouter.HandleFunc("/accounts/login", accounts.MatchHandle).Methods("POST")
+
 	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
