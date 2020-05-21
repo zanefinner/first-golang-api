@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+
 	"github.com/zanefinner/first-golang-api/accounts"
 	"github.com/zanefinner/first-golang-api/articles"
 	"github.com/zanefinner/first-golang-api/base"
@@ -22,13 +23,10 @@ func main() {
 		return
 	}
 
-	//db.AutoMigrate(&Article{})
-
 	log.Println("Connection Established")
 	log.Println("Server Start")
 
 	myRouter := mux.NewRouter().StrictSlash(true)
-
 	//Base Routes
 	myRouter.HandleFunc("/", base.IndexHandle).Methods("GET")
 
