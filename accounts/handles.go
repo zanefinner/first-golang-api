@@ -66,36 +66,13 @@ func IndexHandle(w http.ResponseWriter, r *http.Request) {
 //CreateHandle resolves POST /accounts/new
 func CreateHandle(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("mysql", "zane:5245@/blog?charset=utf8&parseTime=True&loc=Local")
-	var account Account
-	err = r.ParseForm()
-	if err != nil {
-		fmt.Println(err)
-	}
-	account.Email = r.Form["email"][0]
-	account.Username = r.Form["username"][0]
-	account.Password = r.Form["password"][0]
-	db.Create(&account)
+	Create(w, r)
 	fmt.Println("Endpoint Hit: POST: /accounts/new")
 }
 
 //MatchHandle resolves POST /accounts/login
 func MatchHandle(w http.ResponseWriter, r *http.Request) {
 	db, err = gorm.Open("mysql", "zane:5245@/blog?charset=utf8&parseTime=True&loc=Local")
-	var account Account
-	err = r.ParseForm()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	//db.AutoMigrate(&Account{})
-	db.Where("username = ? AND password = ?", r.Form["username"], r.Form["password"]).Find(&account)
-	if account.ID == 0 {
-		fmt.Println("Failed to log in")
-		//retry (return login page with error)
-	} else {
-		fmt.Println("Logged in")
-		//start session
-	}
-	fmt.Println(account)
+	Match(w, r)
 	fmt.Println("Endpoint Hit: POST: /accounts/login")
 }
