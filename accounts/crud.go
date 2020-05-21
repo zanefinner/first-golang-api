@@ -33,6 +33,6 @@ func Match(w http.ResponseWriter, r *http.Request) {
 		//retry (return login page with error)
 	} else {
 		fmt.Println("Logged in")
-		Auth(account.ID)
+		Auth(account.ID, w, r)
 	}
 }

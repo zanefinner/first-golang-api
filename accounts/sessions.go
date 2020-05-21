@@ -6,7 +6,7 @@ import (
 )
 
 //Auth starts a session for when you log in
-func Auth(iud int) {
+func Auth(iud int, w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, "auth")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -14,7 +14,7 @@ func Auth(iud int) {
 	}
 
 	// Set some session values.
-	session.Values["iud"] = int
+	session.Values["iud"] = iud
 	// Save it before we write to the response/return from the handler.
 	err = session.Save(r, w)
 	if err != nil {
